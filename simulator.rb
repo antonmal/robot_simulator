@@ -1,9 +1,10 @@
+# Robots move around an endless board
 class Robot
   attr_reader :coordinates, :bearing
   DIRECTIONS = [:north, :east, :south, :west]
 
   def orient(direction)
-    raise ArgumentError unless DIRECTIONS.include? direction
+    fail ArgumentError unless DIRECTIONS.include? direction
     @bearing = direction
   end
 
@@ -21,10 +22,10 @@ class Robot
 
   def advance
     case @bearing
-    when :north then change_x_y( 0, 1 )
-    when :south then change_x_y( 0,-1 )
-    when :east  then change_x_y( 1, 0 )
-    when :west  then change_x_y(-1, 0 )
+    when :north then change_x_y(0, 1)
+    when :south then change_x_y(0, -1)
+    when :east  then change_x_y(1, 0)
+    when :west  then change_x_y(-1, 0)
     end
   end
 
@@ -41,12 +42,12 @@ class Robot
   end
 end
 
-
+# Simulator interprets sets of commands and sends them to robots
 class Simulator
   MOVES = { 'L' => :turn_left, 'R' => :turn_right, 'A' => :advance }
 
   def instructions(command_str)
-    command_str.chars.map {|letter| MOVES[letter]}
+    command_str.chars.map { |letter| MOVES[letter] }
   end
 
   def place(robot, **args)
@@ -55,6 +56,6 @@ class Simulator
   end
 
   def evaluate(robot, command_str)
-    instructions(command_str).each {|cmd| robot.send(cmd)}
+    instructions(command_str).each { |cmd| robot.send(cmd) }
   end
 end
